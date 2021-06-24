@@ -17,8 +17,15 @@ function Provider({ children }) {
     planetData();
   }, []);
 
+  const filterPlanetsByName = ({ target: { value } }) => {
+    const filterData = data.filter(({ name }) => name.includes(value));
+
+    setFilterPlanets(filterData);
+  };
+
   const contextValue = {
     filterPlanets,
+    filterPlanetsByName,
   };
 
   return (
