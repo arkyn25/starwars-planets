@@ -4,7 +4,6 @@ import context from '../context/context';
 function InputFilter() {
   const { filterPlanetsByName,
     filterByNumericValues,
-    filters,
     filterButton,
     value,
     comparison,
