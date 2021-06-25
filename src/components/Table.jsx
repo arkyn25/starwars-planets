@@ -1,11 +1,15 @@
 import React, { useContext } from 'react';
-import context from '../context/context';
+import context from '../context/StarWarsContext';
+import './Table.css';
 
 function Table() {
-  const { filterPlanets } = useContext(context);
+  const { filterPlanets, loading } = useContext(context);
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
 
   return (
-    <table>
+    <table className="table-header">
       <thead>
         <tr>
           <th>Name</th>
@@ -23,7 +27,7 @@ function Table() {
           <th>Url</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="table-body">
         {filterPlanets.map((planet) => (
           <tr key={ planet.name }>
             <td>{ planet.name }</td>

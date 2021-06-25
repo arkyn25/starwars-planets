@@ -1,0 +1,12 @@
+.form-control {
+  display: flex;
+  flex-direction: row;
+}
+
+.fieldName {
+  width: 250px;
+}
+
+.fieldValue {
+  width: 350px;
+}

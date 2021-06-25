@@ -1,34 +1,51 @@
 import React, { useContext } from 'react';
-import context from '../context/context';
+import context from '../context/StarWarsContext';
+import './InputFilter.css';
 
 function InputFilter() {
   const { filterPlanetsByName,
     filterByNumericValues,
     filterButton,
-    value,
-    comparison,
-    column,
+    displayFiltered,
+    resetFilter,
+    filters,
   } = useContext(context);
 
+  const filterButtonOptions = () => {
+    const { column, comparison, number } = filters;
+    if (displayFiltered) {
+      return (
+        <div>
+          <p data-testid="filter">
+            { `Filtrado por ${column} ${comparison} ${number}` }
+            <button type="button" onClick={ resetFilter }>X</button>
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <form action="">
-      <fieldset>
+    <form action="" className="form-control">
+      <fieldset className="fieldName">
         <legend>Filtrar por nome:</legend>
         <input
           type="text"
           data-testid="name-filter"
+          className="fieldName"
           onChange={ (ev) => {
             filterPlanetsByName(ev);
           } }
         />
       </fieldset>
-      <fieldset>
-        <legend>Filtrar por valores</legend>
+      <fieldset className="fieldValue">
+        <legend>Filtrar por valores:</legend>
         <select
           name="column"
           data-testid="column-filter"
           onChange={ filterByNumericValues }
-          value={ column }
+          value={ filters.column }
         >
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
@@ -40,7 +57,7 @@ function InputFilter() {
           name="comparison"
           data-testid="comparison-filter"
           onChange={ filterByNumericValues }
-          value={ comparison }
+          value={ filters.comparison }
         >
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
@@ -51,7 +68,7 @@ function InputFilter() {
           name="number"
           data-testid="value-filter"
           onChange={ filterByNumericValues }
-          value={ value }
+          value={ filters.number }
         />
         <button
           type="button"
@@ -61,6 +78,10 @@ function InputFilter() {
           Filtrar
 
         </button>
+        <fildset>
+          <h4>Filtros:</h4>
+          { filterButtonOptions() }
+        </fildset>
       </fieldset>
     </form>
   );

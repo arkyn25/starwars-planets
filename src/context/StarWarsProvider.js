@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import getApi from '../services/getApi';
-import context from './context';
+import context from './StarWarsContext';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [filterPlanets, setFilterPlanets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [displayFiltered, setDisplayFiltered] = useState(false);
   const [filters, setFilters] = useState({
     name: '',
-    value: 100000,
+    number: '',
     column: 'population',
     comparison: 'maior que',
   });
@@ -17,6 +19,7 @@ function Provider({ children }) {
     const planets = await getApi();
     setData(planets);
     setFilterPlanets(planets);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -24,7 +27,7 @@ function Provider({ children }) {
   }, []);
 
   const filterPlanetsByName = ({ target: { value } }) => {
-    const filterData = data.filter(({ name }) => name.includes(value));
+    const filterData = data.filter(({ name }) => name.toLowerCase().includes(value));
 
     setFilterPlanets(filterData);
   };
@@ -51,13 +54,35 @@ function Provider({ children }) {
       return columnCompare === valueCompare;
     });
     setFilterPlanets(filteredData);
+    setDisplayFiltered(true);
+  };
+
+  const filterOptions = ({ target }) => {
+    const { name, value } = target;
+    if (name === 'column') {
+      setFilters({ ...filters, column: value });
+    } else if (name === 'comparison') {
+      setFilters({ ...filters, comparison: value });
+    } else {
+      setFilters({ ...filters, number: value });
+    }
+  };
+
+  const resetFilter = () => {
+    setFilterPlanets(data);
+    setDisplayFiltered(true);
   };
 
   const contextValue = {
     filterPlanets,
+    loading,
+    displayFiltered,
+    filters,
+    resetFilter,
     filterPlanetsByName,
     filterByNumericValues,
     filterButton,
+    filterOptions,
   };
 
   return (

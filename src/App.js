@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import Provider from './context/Provider';
+import Provider from './context/StarWarsProvider';
 import Table from './components/Table';
 import InputFilter from './components/InputFilter';
 
