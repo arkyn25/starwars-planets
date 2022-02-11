@@ -7,10 +7,12 @@ import InputFilter from './components/InputFilter';
 
 function App() {
   return (
-    <Provider>
-      <InputFilter />
-      <Table />
-    </Provider>
+    <div className="App">
+      <Provider>
+        <InputFilter />
+        <Table />
+      </Provider>
+    </div>
   );
 }
 
